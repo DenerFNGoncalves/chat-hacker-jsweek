@@ -9,7 +9,10 @@ export const constants = {
   }, 
   socket: {
     JOIN_ROOM: 'joinRoom',
-    MSG: 'message'
+    MSG: 'message',
+    DATA: 'data',
+    END: 'end',
+    ERROR: 'error'
   }
 
 }

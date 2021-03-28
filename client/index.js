@@ -7,14 +7,19 @@ import EventManager from './src/evtManager.js';
 const [_, __, ...commands] = process.argv
 const config = CliConfig.parseArguments(commands)
  
+const componentEmitter = new Events()
 const socket = new SocketClient(config)
 await socket.initialize()
-
-const componentEmitter = new Events()
-const ctrl = new TerminalController()
 
 const manager = new EventManager({componentEmitter, socket})
 socket.attachEvents(manager.getEvents())
 
+const data = {
+  roomId: config.room,
+  userName: config.username
+}
 
+manager.joinRoomAndWaitMessage(data)
+
+const ctrl = new TerminalController()
 ctrl.initializeTable(componentEmitter)

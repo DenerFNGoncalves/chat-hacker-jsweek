@@ -1,8 +1,9 @@
 import { constants } from "./constants.js"
+import Event from 'events'
 
 export default class SocketClient {
   #serverConnection
-  #serverListener
+  #serverListener = new Event()
   constructor ({ host, port, protocol }) {
     this.host = host
     this.port = port
@@ -12,6 +13,7 @@ export default class SocketClient {
 
   attachEvents(events) {
     this.#serverConnection.on(constants.socket.DATA, data => {
+      console.log(data.toString())
       try {
         data.toString()
         .split('\n')
@@ -30,11 +32,12 @@ export default class SocketClient {
     this.#serverConnection.on(constants.socket.END, () => {
       console.log('Disconnected')
     })
-
-    for (const [key, value] of events){
+    
+   
+    for( const [key, value] of events) {
       this.#serverListener.on(key, value)
     }
-}
+  }
 
   sendMessage(event, message) {
     this.#serverConnection.write(JSON.stringify({ event, message }))

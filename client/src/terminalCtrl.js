@@ -9,12 +9,12 @@ export default class TerminalController {
     return `#${((1<<24) * Math.random() | 0).toString(16)}-fg`
   }
 
-  #getUserCollor(username) {
-    if (this.#userCollors.has(username))
-      return this.#userCollors.get(username)
+  #getUserCollor(userName) {
+    if (this.#userCollors.has(userName))
+      return this.#userCollors.get(userName)
 
     const collor = this.#pickCollor()
-    this.#userCollors.set(username, collor)
+    this.#userCollors.set(userName, collor)
 
     return collor
   }
@@ -39,8 +39,8 @@ export default class TerminalController {
 
   #onLogChanged({ screen, actyLog }){
     return   (msg) => {
-     const [username] = msg.split(/\s/)
-     const collor = this.#getUserCollor(username)
+     const [userName] = msg.split(/\s/)
+     const collor = this.#getUserCollor(userName)
      actyLog.addItem(`{${collor}}{bold}${msg.toString()}{/}`)
      screen.render()
     }
@@ -52,9 +52,9 @@ export default class TerminalController {
       status.clearItems()
       status.addItem(content)
       
-      users.forEach(username => {
-        const collor = this.#getUserCollor(username)
-        status.addItem(`{${collor}}{bold}${username}{/}`)
+      users.forEach(userName => {
+        const collor = this.#getUserCollor(userName)
+        status.addItem(`{${collor}}{bold}${userName}{/}`)
       })
 
       screen.render()
