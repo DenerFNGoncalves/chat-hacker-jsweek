@@ -21,8 +21,8 @@ export default class TerminalController {
 
   #onInputReceived(evtEmitter) {
     return function() {
-      const msg = this.getValue()
-      console.log(msg)
+      const msg = this.getValue() 
+      evtEmitter.emit(c.events.app.MSG_SENT, msg)
       this.clearValue()
     }
   }

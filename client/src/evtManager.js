@@ -15,9 +15,18 @@ export default class EventManager {
     })
   }
 
+  userDisconnected({id, userName}) {
+    this.#allUsers.delete(id)
+    this.#emitComponentUpdate(constants.events.app.ACTYLOG_UPDATED, `${userName} left!`)
+  }
+
   updateUsers(users) {
     users.forEach(({ id, userName }) => this.#allUsers.set(id, userName))
     this.#emitComponentUpdate(constants.events.app.STATUS_UPDATED, Array.from(this.#allUsers.values()))
+  }
+
+  message(message) { 
+    this.#emitComponentUpdate(constants.events.app.MSG_RECEIVED, message)
   }
 
   newUserConnected(user) {

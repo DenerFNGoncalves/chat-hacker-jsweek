@@ -6,6 +6,9 @@
   "type": "module",
   "scripts": {
     "user01": "node index.js --username user01 --room sala01 --hostUrl http://localhost:9898",
+    "user02": "node index.js --username user02 --room sala01 --hostUrl http://localhost:9898",
+    "user03": "node index.js --username user03 --room sala02 --hostUrl http://localhost:9898",
+    "user04": "node index.js --username user04 --room sala02 --hostUrl http://localhost:9898",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

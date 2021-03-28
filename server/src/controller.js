@@ -31,6 +31,16 @@ export default class Controller {
     this.#broadCast({ socketId, roomId, message: { id: socketId, userName: user.userName}, event: constants.event.USER_CONNECTED })
   }
 
+
+  message(socketId, data){
+    const {userName, roomId} = this.#users.get(socketId)
+    this.#broadCast({
+      roomId,      
+      event: constants.event.MESSAGE,
+      message: { userName, message: data }
+    })
+  }
+
   #broadCast ({roomId, socketId, event, message}) {
     const users = this.#rooms.get(roomId).values()
     for(const {socket, id} of users) if (socketId !== id) {
@@ -60,11 +70,25 @@ export default class Controller {
   }
 
   #onSocketClosed(id){
-    return data => {
-      console.log('onSocketClosed', id)
+    return _ => {
+      const {userName, roomId} = this.#users.get(id)
+      this.#logoutUser(id, roomId)
+      this.#broadCast({
+        roomId,
+        message: {id, userName},
+        socketId: id,
+        event: constants.event.USER_DISCONNECTED
+      })
     }
   }
 
+  #logoutUser(id, roomId) {
+    this.#users.delete(id)
+    const uRoom = this.#rooms.get(roomId)
+    uRoom.delete(id)
+
+    this.#rooms.set(roomId, uRoom)
+  }
 
   #updateGlobalUserData (socketId, userData) {
     const users = this.#users

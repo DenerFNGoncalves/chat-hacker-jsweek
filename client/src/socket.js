@@ -13,7 +13,6 @@ export default class SocketClient {
 
   attachEvents(events) {
     this.#serverConnection.on(constants.socket.DATA, data => {
-      console.log(data.toString())
       try {
         data.toString()
         .split('\n')
