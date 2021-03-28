@@ -32,4 +32,10 @@ export default class SocketServer {
       server.listen(this.port, () => resolve(server))
     })
   }
+
+  async sendMessage(socket, event, msg) {
+    const data = JSON.stringify({ event, message })
+
+    socket.write(`${data}\n`)
+  }
 }
