@@ -1,3 +1,8 @@
+#!/usr/bin/env node
+/** 
+  chmod +x index.js
+ */
+
 import CliConfig from './src/cliConfig.js'
 import Events from 'events'
 import SocketClient from './src/socket.js';

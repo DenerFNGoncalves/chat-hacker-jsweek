@@ -5,7 +5,7 @@ import Controller from "./controller.js"
 
 const evtEmitter = new Event()
  
-const port = process.eventNames.PORT || 9898
+const port = process.env.PORT || 9898
 const socketServer = new SocketServer({ port })
 
 const server = await socketServer.initialize(evtEmitter)
